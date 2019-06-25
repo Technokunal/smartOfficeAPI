@@ -1,0 +1,13 @@
+{
+"BatchDetails":
+	{
+      BatchId: "BT1310360",
+      Course: "Core Java",
+      StartDate: "2013-10-23",
+      TrainerId:"Dheer@123",
+      Max_Strength: 20,
+      Present_Strength: 2,
+      SlotId: "SL121009",
+      Status:"Not Started"
+     }
+ }

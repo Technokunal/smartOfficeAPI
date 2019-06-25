@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "BatchId": {
+      "type": "string"
+    },
+    "Course": {
+      "type": "string"
+    },
+    "StartDate": {
+      "type": "string"
+    },
+    "TrainerId": {
+      "type": "string"
+    },
+    "Max_Strength": {
+      "type": "integer"
+    },
+    "Present_Strength": {
+      "type": "integer"
+    },
+    "SlotId": {
+      "type": "string"
+    },
+    "Status": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "BatchId",
+    "Course",
+    "StartDate",
+    "TrainerId",
+    "Max_Strength",
+    "Present_Strength",
+    "SlotId",
+    "Status"
+  ]
+}

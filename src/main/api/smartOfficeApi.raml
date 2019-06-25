@@ -1,0 +1,249 @@
+#%RAML 0.8
+baseUri: https://mocksvc.mulesoft.com/mocks/72b92fe8-a9d8-42af-8052-9b768b2b6d80
+title: smartofficeapi
+version: 1.0
+
+
+schemas:
+- response-get-batch-schema: |
+    {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "type": "object",
+      "properties": {
+        "BatchDetails": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "BatchId": {
+                  "type": "string"
+                },
+                "Course": {
+                  "type": "string"
+                },
+                "StartDate": {
+                  "type": "string"
+                },
+                "TrainerId": {
+                  "type": "string"
+                },
+                "Max_Strength": {
+                  "type": "integer"
+                },
+                "Present_Strength": {
+                  "type": "integer"
+                },
+                "SlotId": {
+                  "type": "string"
+                },
+                "Status": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "BatchId",
+                "Course",
+                "StartDate",
+                "TrainerId",
+                "Max_Strength",
+                "Present_Strength",
+                "SlotId",
+                "Status"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "BatchDetails"
+      ]
+    }
+- error-response: |
+     {
+       "$schema": "http://json-schema.org/draft-04/schema",
+       "type": "object",
+       "description": "Denotes the schema for the error response",
+       "properties": {
+          "errorInfo": {
+           "description": "Denotes the object holding the error information",
+           "type": "array",
+          "uniqueItems": true,
+           "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "description": "Denotes the error code",
+                  "type": "string"
+                 },
+                 "detail": {
+                    "description": "Denotes the detailed error  description",
+                     "type": "object",
+                     "properties": {
+                       "cause": {
+                           "description": "Denotes the cause for the error",
+                            "type": "string"
+                       },
+                       "moduleErrorDetails": {
+                          "description": "Denotes the details of the module which failed",
+                          "type": "object",
+                          "properties": {
+                             "code": {
+                               "description": "Denotes the module error code",
+                                "type": "string"
+                              },
+                             "sectionType": {
+                                "description": "Denotes the section type of the failed module",
+                                "type": "string"
+                             },
+                             "sectionSpecNumber": {
+                                "description": "Denotes the section spec number of the failed module",
+                                "type": "string"
+                           },
+                             "sectionDesc": {
+                               "description": "Denotes the section description of the failed module",
+                               "type": "string"
+                           }
+                        },
+                        "required" : ["cause"]
+                        }
+                     }
+                  }
+           }
+         }
+      }
+     }
+     }
+/smart-office-api:
+    get:
+      responses: 
+          200:
+            description: Success
+            body:
+              application/json:
+                schema: response-get-batch-schema
+                example: |
+                  {
+                    "BatchDetails":[
+                      {
+                          BatchId: "BT1310360",
+                          Course: "Core Java",
+                          StartDate: "2013-10-23",
+                          TrainerId:"Dheer@123",
+                          Max_Strength: 20,
+                          Present_Strength: 2,
+                          SlotId: "SL121009",
+                          Status:"Not Started"
+                         }
+                       ]
+                     }
+          400:
+            description: Bad request - Client error indicating that the request was not properly formatted.
+            body:
+              application/json:
+                schema: error-response
+                example: |
+                  {
+                    "errorInfo":[
+                          {
+                          "code":"RDP400"
+                          "detail":{
+                            "description":"Bad request - Client error indicating that the request was not properly formatted."
+                          }
+                        }
+                        ]
+                  }
+          404:
+            description: Not Found - The client attempted required resource not found.
+            body:
+              application/json:
+                schema: error-response
+                example: |
+                  {
+                    "errorInfo":[
+                          {
+                          "code":"RDP404"
+                          "detail":{
+                            "description":"Not Found - The client attempted required resource not found."
+                          }
+                        }
+                        ]
+                  }
+          500:
+            description: Internal Server Error - An error occurred on the server when attempting to satisfy the request.
+            body:
+              application/json:
+                schema: error-response
+                example: |
+                  {
+                    "errorInfo":[
+                          {
+                          "code":"RDP500"
+                          "detail":{
+                            "description":"Service Unavailable"
+                          }
+                        }
+                        ]
+                  }
+/smart-office-api/{batchId}:
+    uriParameters:
+      batchId :
+        displayName: Batch Id
+        description: Batch Id of the class
+        type: string
+        minLength: 9
+        required: true
+    get:
+      responses: 
+          200:
+            description: Success
+            body:
+              application/json:
+                schema: response-get-batch-schema
+                example: |
+                  {
+                    "BatchDetails":[
+                      {
+                          BatchId: "BT1310360",
+                          Course: "Core Java",
+                          StartDate: "2013-10-23",
+                          TrainerId:"Dheer@123",
+                          Max_Strength: 20,
+                          Present_Strength: 2,
+                          SlotId: "SL121009",
+                          Status:"Not Started"
+                         }
+                       ]
+                     }
+          404:
+            description: Not Found - The client attempted required resource not found.
+            body:
+              application/json:
+                schema: error-response
+                example: |
+                  {
+                    "errorInfo":[
+                          {
+                          "code":"RDP404"
+                          "detail":{
+                            "description":"Not Found - The client attempted required resource not found."
+                          }
+                        }
+                        ]
+                  }
+          500:
+            description: Internal Server Error - An error occurred on the server when attempting to satisfy the request.
+            body:
+              application/json:
+                schema: error-response
+                example: |
+                  {
+                    "errorInfo":[
+                          {
+                          "code":"RDP500"
+                          "detail":{
+                            "description":"Service Unavailable"
+                          }
+                        }
+                        ]
+                  }
